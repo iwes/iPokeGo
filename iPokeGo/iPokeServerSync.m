@@ -231,7 +231,7 @@ static NSURLSession *iPokeServerSyncSharedSession;
     request = [request stringByReplacingOccurrencesOfString:@"%%idlist%%" withString:idlist];
 
 
-    //NSLog(@"%@", request);
+    NSLog(@"%@", request);
     
     return [NSURL URLWithString:request];
 }
@@ -355,6 +355,7 @@ static NSURLSession *iPokeServerSyncSharedSession;
     NSArray *knownPokemonIDs = [[context executeFetchRequest:knownIDsRequest error:nil] valueForKey:@"spawnpoint"];
     
     NSArray *newPokemon = [rawPokemon filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"NOT (spawnpoint_id IN %@)" argumentArray:@[knownPokemonIDs]]];
+    NSLog(@"Processing %@ new pokemon", @(newPokemon.count));
     for (NSDictionary *rawValues in newPokemon) {
         // if current entry is already expired, do not add again
         NSTimeInterval disappearsTimeInterval = [rawValues[@"disappear_time"] doubleValue] / 1000.0;
